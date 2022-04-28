@@ -1,0 +1,30 @@
+<%- include('layout/header'); -%>
+
+<div class="col-md-4 col-md-offset-4 mx-auto">
+	<div>
+		<p>Profile Detail</p>
+	</div>
+	<div>
+		<center>
+			<table class="table table-hover text-center">
+				<tr>
+					<td>Image </td>
+					<td>Name</td>
+					<td>Price</td>
+					<td>Quantity</td>
+					<td>Discount</td>
+					<td>Action</td>
+				</tr>
+				<tr>
+					<td><img src="<%- image%>"> </td>
+					<td><%- name%> </td>
+					<td><%- price%> </td>
+					<td><%- type%> </td>
+					<td><%- quantity%> </td>
+					<td><%- discount%> </td>
+					<td><a href="/cart/delete/<%- price%>"><i class="fa fa-delete" style="font-size:24px"></i></a></td>
+				</tr>
+			</table>
+		<center>
+	</div>
+</div>	

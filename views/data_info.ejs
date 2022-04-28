@@ -1,0 +1,57 @@
+<%- include('layout/header'); -%>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-6 mx-auto">
+        <div>
+            <h3>Data</h3>
+        </div>
+        <div class="form-group">
+            <form id="form1" method="post">
+                <input type="text" name="_id" placeholder="" required="" value="<%- datas._id %>" class="form-control" hidden><br/>
+                <input type="text" name="Year" placeholder="" required="" value="<%- datas.Year %>" class="form-control"><br/>
+                <input type="text" name="Industry_aggregation_NZSIOC" placeholder="type" required="" value="<%- datas.Industry_aggregation_NZSIOC %>" class="form-control"><br/>
+                <input type="text" name="Industry_code_NZSIOC" placeholder="datas" required="" value="<%- datas.Industry_code_NZSIOC %>" class="form-control"><br/>
+                <input type="text" name="Industry_name_NZSIOC" placeholder="datas" required="" value="<%- datas.Industry_name_NZSIOC %>" class="form-control"><br/>
+                <input type="text" name="Units" placeholder="datas" required="" value="<%- datas.Units %>" class="form-control"><br/>
+                <input type="text" name="Variable_code" placeholder="datas" required="" value="<%- datas.Variable_code %>" class="form-control"><br/>
+                <input type="text" name="Variable_name" placeholder="datas" required="" value="<%- datas.Variable_name %>" class="form-control"><br/>
+                <input type="text" name="Variable_category" placeholder="datas" required="" value="<%- datas.Variable_category %>" class="form-control"><br/>
+                <input type="text" name="Value" placeholder="datas" required="" value="<%- datas.Value %>" class="form-control"><br/>
+                <input type="submit" value="Update" class="btn btn-success">
+            </form>
+        </div>     
+        <div class="mssg bg-danger">
+            <span id="check"></span>
+        </div>
+        <div>
+            <span>Go home! <a href="/">home</a></span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $( "#form1" ).submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'PUT',
+                url: '/data',
+                data: $('#form1').serialize(),
+                dataType: "json",
+                success: function(response){
+                    $('#form1')[0].reset();
+                    document.getElementById("check").innerHTML=response.Success;
+                            setTimeout(function(){
+                                document.getElementById("check").innerHTML="";
+                            },3000);
+                            if (response.Success=="Update product successful") {
+                                document.getElementById("aa").click();
+                            };
+                        },
+                        error: function() {
+                        }
+                })
+        });
+    });
+</script>
+<div class="clearfix"></div>
+

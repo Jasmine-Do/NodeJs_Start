@@ -1,15 +1,17 @@
-const Data = require('../models/data')
+const Data = require('../model/data')
 const jjv = require('jjv')
 const env = jjv()
-const dataValidate = require('../models/dataValidate')
+const dataValidate = require('../model/dataValidate')
 
 const get_data = (req,res)=>{
     Data.find(function(err, items){
 		if(err){
-			return res.render('data',{page:'Data',datas: []});;	
+            res.status(400).send("Error");
+			//res.render('data',{page:'Data',datas: []});;	
 		}
 		else{
-			return res.render('data',{page:'Data',datas: items});
+            res.status(200).send("Home show list data");
+			//return res.render('data',{page:'Data',datas: items});
 		}
 	});
 }
@@ -18,7 +20,7 @@ const post_data = (req,res)=>{
 }
 
 const delete_data = (req,res)=>{
-    var myquery = { _id: req.params.id};
+    const myquery = { _id: req.params.id};
     Data.deleteOne(myquery, function(err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
@@ -40,22 +42,27 @@ const get_x_data = (req,res)=>{
 
 
 
-const update_data = (req,res)=>{
-    var myquery = { _id: req.body._id };
-        Data.updateOne(myquery, req.body, function(err, res) {
-            if (err) throw err;
-            console.log("1 document updated");
-        })
-        .catch ((err) => {
-            console.log(err)
-        })
+const update_data = async(req,res)=>{
+    env.addSchema('data', dataValidate)
+    const errors = env.validate('data', req.body)
+    if(!errors)
+    {
+        const myquery = { _id: req.body._id };
+        const result = await Data.updateOne(myquery, req.body)
+        console.log(result)
+        res.status(200).send('success!')
+    }
+    else {
+        console.log(errors)
+        res.status(400).send('Failed with error object ' + JSON.stringify(errors))
+    }
 
     // env.addSchema('data', dataValidate)
     // const errors = env.validate('data', req.body)
     // if(!errors)
     // {   
     //     console.log('run')
-    //     var myquery = { _id: req.body._id };
+    //     const myquery = { _id: req.body._id };
     //     Data.updateOne(myquery, req.body, function(err, res) {
     //         if (err) throw err;
     //         console.log("1 document updated");
@@ -72,9 +79,9 @@ const update_data = (req,res)=>{
 
 const search = (req,res)=>{
     let objWhere = {}
-    var keys = req.body.key
+    const keys = req.body.key
     if (keys !== ''){
-        objWhere.Variable_code = new RegExp(keys);
+        objWhere.constiable_code = new RegExp(keys);
         Data.find(objWhere)
         .then((datas)=>{
             console.log(datas)

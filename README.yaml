@@ -1,0 +1,10 @@
+npm install nodejs
+npm install nodemon
+npm init
+npm install express express-session connect-mongo@3 session jjv
+npm install --dotenv-extended 
+
+//test
+npm install --save-dev jasmine
+npx jasmine init
+
